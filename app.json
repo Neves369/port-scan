@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "port-scan",
+    "slug": "port-scan",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
