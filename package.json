@@ -9,11 +9,14 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^9.4.1",
     "expo": "~49.0.8",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "ipaddr.js": "^2.1.0",
     "react": "18.2.0",
-    "react-native": "0.72.4"
+    "react-native": "0.72.4",
+    "react-native-tcp-socket": "^6.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
