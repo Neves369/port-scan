@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, FlatList, View, Text } from 'react-native';
+import { ImageBackground, StyleSheet, FlatList, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import React, {useState, useCallback} from 'react';
 import TcpSocket from 'react-native-tcp-socket';
@@ -38,7 +38,7 @@ export default function App() {
   });
 
   // Função para verificar hosts 
-  var scanHost = function(hostIP, hostPort) { 
+  const scanHost = (hostIP, hostPort) => { 
     return new Promise(function (resolve,reject) { 
       
       const client = TcpSocket.connect(
@@ -69,6 +69,22 @@ export default function App() {
     }); 
   }
 
+  const scanTCPHost = (host, port) =>{
+    var client = TcpSocket.createConnection(port, host);
+    ToastAndroid.show('Socket created.', ToastAndroid.SHORT);
+    client.on('data', function(data) {
+      //Registra a resposta do servidor
+      ToastAndroid.show('RESPONSE: ' + data, ToastAndroid.show);
+    }).on('connect', function() {
+      //Escreve manualmente um solicitação HTTP
+      client.write("GET / HTTP/1.0\r\n\r\n");
+      ToastAndroid.show('CONNECTED : ' + host + ' ' + port, ToastAndroid.LONG);
+    }).on('end', function() {
+      ToastAndroid.show('DONE', ToastAndroid.SHORT);
+      client.close();
+    });
+  }
+
 
   network_promise.then((response) => {
     for (let i = 0; i < response["ip_range"].length; i++) {
@@ -93,18 +109,18 @@ export default function App() {
   })
 
   const renderItem = useCallback(({ item, index }) => {
-    console.log("item: ", item)
+
     return (
-      <View style={{width: "100%", height: 50, alignItems: "center", marginBottom: 0, flexDirection: 'row', justifyContent: "space-between"}}>
-      <Text>{item.ip}</Text>
-      <Text>{item.port}</Text>
-      </View>
+      <TouchableOpacity onPress={()=>{scanTCPHost(item.ip, item.port)}} style={{width: "100%", height: 50, alignItems: "center", marginBottom: 0, flexDirection: 'row', justifyContent: "space-between"}}>
+      <Text style={{color: "white", fontSize: 20}}>{item.ip}</Text>
+      <Text style={{color: "white",  fontSize: 20}}>{item.port}</Text>
+      </TouchableOpacity>
     );
   }, []);
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ImageBackground source={require("./assets/back.jpg")} resizeMode='cover' style={styles.container}>
       <FlatList
           data={scanResult}
           numColumns={1}
@@ -115,7 +131,7 @@ export default function App() {
           }}
         />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 
