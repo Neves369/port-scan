@@ -6,7 +6,7 @@
   
   
   
-  <p>Um port scan mobile desenvolvido para ínicio de coleta de dados em redes wifi</p>
+  <p>Um port scan mobile desenvolvido para início de coleta de dados em redes wifi</p>
   
   
 </div>
