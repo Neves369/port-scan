@@ -71,6 +71,9 @@ export default function App() {
 
   const scanTCPHost = (host, port) =>{
     var client = TcpSocket.createConnection(port, host);
+    if(client){
+
+    
     ToastAndroid.show('Socket created.', ToastAndroid.SHORT);
     client.on('data', function(data) {
       //Registra a resposta do servidor
@@ -83,6 +86,10 @@ export default function App() {
       ToastAndroid.show('DONE', ToastAndroid.SHORT);
       client.close();
     });
+  }
+  else {
+   ToastAndroid.show("Socket not created!, ToastAndroid.SHORT);
+  }
   }
 
 
